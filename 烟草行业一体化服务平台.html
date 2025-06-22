@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>杭烟通 - 零售户智慧服务平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- Tailwind配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1A663A', // 烟草绿
+            secondary: '#E63946', // 警示红
+            accent: '#FF9F1C', // 强调橙
+            neutral: '#F8F9FA', // 背景灰
+            dark: '#212529', // 文本黑
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-neutral font-sans text-dark">
+  <!-- 顶部导航栏 -->
+  <header class="bg-white shadow-md fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-leaf text-primary text-3xl"></i>
+        <h1 class="text-xl md:text-2xl font-bold text-primary">杭烟通</h1>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#" class="text-dark hover:text-primary font-medium transition-colors">首页</a>
+        <a href="#" class="text-dark hover:text-primary font-medium transition-colors">证照管理</a>
+        <a href="#" class="text-dark hover:text-primary font-medium transition-colors">营销指导</a>
+        <a href="#" class="text-dark hover:text-primary font-medium transition-colors">客户反馈</a>
+        <a href="#" class="text-dark hover:text-primary font-medium transition-colors">政策推送</a>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <div class="hidden md:block text-right">
+          <p class="text-sm text-gray-600">欢迎，<span class="font-medium">西湖区湖滨路XX店</span></p>
+          <p class="text-xs text-gray-500">许可证状态：<span class="text-green-600">正常</span> · 有效期至：2025-12-31</p>
+        </div>
+        <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md flex items-center space-x-2 transition-all">
+          <i class="fa fa-user-circle-o"></i>
+          <span class="hidden md:inline">我的账户</span>
+        </button>
+        <button class="md:hidden text-primary text-xl" id="menu-toggle">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 移动端菜单 -->
+    <div class="md:hidden hidden bg-white w-full border-t" id="mobile-menu">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+        <p class="text-sm font-medium">西湖区湖滨路XX店</p>
+        <p class="text-xs text-gray-500">许可证状态：<span class="text-green-600">正常</span> · 有效期至：2025-12-31</p>
+        <div class="flex flex-col space-y-3 pt-2">
+          <a href="#" class="text-dark hover:text-primary font-medium py-2 border-b border-gray-100">首页</a>
+          <a href="#" class="text-dark hover:text-primary font-medium py-2 border-b border-gray-100">证照管理</a>
+          <a href="#" class="text-dark hover:text-primary font-medium py-2 border-b border-gray-100">营销指导</a>
+          <a href="#" class="text-dark hover:text-primary font-medium py-2 border-b border-gray-100">客户反馈</a>
+          <a href="#" class="text-dark hover:text-primary font-medium py-2">政策推送</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 pt-24 pb-16">
+    <!-- 欢迎区 -->
+    <section class="mb-10 bg-gradient-to-r from-primary/90 to-primary text-white rounded-xl p-6 md:p-8 shadow-lg">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="mb-6 md:mb-0">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2 text-shadow">您好，湖滨路XX店！</h2>
+          <p class="text-lg opacity-90">今天是 <span id="current-date">2024年6月1日</span> · 星期日</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button class="bg-white text-primary px-4 py-2 rounded-md font-medium hover:bg-opacity-90 transition-all">
+              <i class="fa fa-calendar-check-o mr-2"></i>今日订单
+            </button>
+            <button class="bg-white/20 text-white px-4 py-2 rounded-md font-medium hover:bg-opacity-30 transition-all">
+              <i class="fa fa-bullhorn mr-2"></i>最新政策
+            </button>
+          </div>
+        </div>
+        <div class="w-full md:w-1/3 bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+          <h3 class="text-lg font-medium mb-3 flex items-center">
+            <i class="fa fa-lightbulb-o mr-2"></i>经营小贴士
+          </h3>
+          <p class="text-sm opacity-90">明日（6月2日）湖滨商圈预计人流量增加20%，建议提前备货：</p>
+          <ul class="mt-2 space-y-1 text-sm">
+            <li>• 利群（新版） +10条</li>
+            <li>• 中华（硬） +5条</li>
+            <li>• 西湖文创纪念烟 +3条</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 快捷功能区 -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-6 flex items-center">
+        <i class="fa fa-th-large text-primary mr-2"></i>快捷功能
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="#" class="bg-white rounded-xl p-5 shadow-md card-hover text-center">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fa fa-id-card-o text-primary text-xl"></i>
+          </div>
+          <h3 class="font-medium">证照管理</h3>
+          <p class="text-xs text-gray-500 mt-1">查看/更新许可证</p>
+        </a>
+        
+        <a href="#" class="bg-white rounded-xl p-5 shadow-md card-hover text-center">
+          <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fa fa-shopping-cart text-accent text-xl"></i>
+          </div>
+          <h3 class="font-medium">智能订货</h3>
+          <p class="text-xs text-gray-500 mt-1">AI推荐订货量</p>
+        </a>
+        
+        <a href="#" class="bg-white rounded-xl p-5 shadow-md card-hover text-center">
+          <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fa fa-line-chart text-secondary text-xl"></i>
+          </div>
+          <h3 class="font-medium">经营分析</h3>
+          <p class="text-xs text-gray-500 mt-1">销售数据可视化</p>
+        </a>
+        
+        <a href="#" class="bg-white rounded-xl p-5 shadow-md card-hover text-center">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fa fa-comments-o text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="font-medium">客户反馈</h3>
+          <p class="text-xs text-gray-500 mt-1">问题提交与追踪</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- 经营数据区 -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-6 flex items-center">
+        <i class="fa fa-bar-chart text-primary mr-2"></i>经营数据
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-5 shadow-md">
+          <h3 class="text-sm text-gray-500 mb-3">近30天销量趋势</h3>
+          <div class="relative h-48">
+            <canvas id="sales-chart"></canvas>
+          </div>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="text-center">
+              <p class="text-xs text-gray-500">环比增长</p>
+              <p class="text-lg font-bold text-green-600">+8.2%</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">排名</p>
+              <p class="text-lg font-bold">西湖区第7名</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 shadow-md">
+          <h3 class="text-sm text-gray-500 mb-3">热销品类</h3>
+          <div class="relative h-48">
+            <canvas id="category-chart"></canvas>
+          </div>
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm">利群系列</span>
+              <span class="text-sm font-medium">42%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-primary h-2 rounded-full" style="width: 42%"></div>
+            </div>
+            
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-sm">中华系列</span>
+              <span class="text-sm font-medium">28%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-accent h-2 rounded-full" style="width: 28%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 shadow-md">
+          <h3 class="text-sm text-gray-500 mb-3">订单状态</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm">待配送</span>
+                <span class="text-sm font-medium">3单</span>
+              </div>
+              <div class="bg-gray-100 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: 15%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm">配送中</span>
+                <span class="text-sm font-medium">7单</span>
+              </div>
+              <div class="bg-gray-100 rounded-full h-2">
+                <div class="bg-yellow-500 h-2 rounded-full" style="width: 35%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm">已完成</span>
+                <span class="text-sm font-medium">22单</span>
+              </div>
+              <div class="bg-gray-100 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <h4 class="text-sm font-medium mb-2">即将到达</h4>
+              <div class="border border-gray-200 rounded-lg p-3">
+                <p class="text-sm font-medium">订单 #202406010012</p>
+                <p class="text-xs text-gray-500 mt-1">预计送达时间：<span class="text-primary">14:30-15:00</span></p>
+                <div class="mt-2 flex justify-between items-center">
+                  <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">配送中</span>
+                  <button class="text-xs text-primary hover:underline">查看详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 最新通知与政策 -->
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold flex items-center">
+          <i class="fa fa-bullhorn text-primary mr-2"></i>最新通知与政策
+        </h2>
+        <a href="#" class="text-primary text-sm hover:underline flex items-center">
+          查看全部 <i class="fa fa-angle-right ml-1"></i>
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl p-5 shadow-md">
+          <h3 class="text-lg font-medium mb-4 flex items-center">
+            <i class="fa fa-calendar text-accent mr-2"></i>近期通知
+          </h3>
+          <div class="space-y-4">
+            <div class="border-l-4 border-accent pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">关于亚运期间配送路线调整的通知</h4>
+                <span class="text-xs text-gray-500">2024-05-30</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">9月23日至10月8日亚运期间，部分配送路线将临时调整，请提前做好备货准备...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+            
+            <div class="border-l-4 border-gray-300 pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">新版许可证换发工作启动</h4>
+                <span class="text-xs text-gray-500">2024-05-25</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">2024年6月1日起启动新版许可证换发工作，可通过平台在线申请，无需现场办理...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+            
+            <div class="border-l-4 border-gray-300 pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">夏季卷烟存储注意事项</h4>
+                <span class="text-xs text-gray-500">2024-05-20</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">夏季高温高湿，请注意卷烟存储环境温度不超过30℃，湿度保持在60%左右...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 shadow-md">
+          <h3 class="text-lg font-medium mb-4 flex items-center">
+            <i class="fa fa-file-text-o text-primary mr-2"></i>政策法规
+          </h3>
+          <div class="space-y-4">
+            <div class="border-l-4 border-primary pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">《电子烟管理办法》政策解读</h4>
+                <span class="text-xs text-gray-500">2024-05-15</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">新修订的《电子烟管理办法》将于2024年7月1日起实施，重点规范电子烟销售渠道...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+            
+            <div class="border-l-4 border-gray-300 pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">关于卷烟明码标价的规定</h4>
+                <span class="text-xs text-gray-500">2024-05-10</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">根据《价格法》规定，所有卷烟必须明码标价，标价签应包含品名、规格、等级、价格等...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+            
+            <div class="border-l-4 border-gray-300 pl-3 py-1">
+              <div class="flex justify-between">
+                <h4 class="font-medium">烟草专卖零售许可证办理指南</h4>
+                <span class="text-xs text-gray-500">2024-05-05</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">新办、延续、变更烟草专卖零售许可证的条件、材料和办理流程，可通过平台在线申请...</p>
+              <button class="text-xs text-primary mt-2 hover:underline">查看详情</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 客服与帮助 -->
+    <section>
+      <h2 class="text-xl font-bold mb-6 flex items-center">
+        <i class="fa fa-headphones text-primary mr-2"></i>客服与帮助
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-5 shadow-md flex items-start space-x-4">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-phone text-primary text-xl"></i>
+          </div>
+          <div>
+            <h3 class="font-medium">客服热线</h3>
+            <p class="text-sm text-gray-600 mt-1">96177</p>
+            <p class="text-xs text-gray-500 mt-1">7:00-22:00 全年无休</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 shadow-md flex items-start space-x-4">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-weixin text-primary text-xl"></i>
+          </div>
+          <div>
+            <h3 class="font-medium">微信客服</h3>
+            <p class="text-sm text-gray-600 mt-1">关注公众号</p>
+            <p class="text-sm text-gray-600">“杭州烟草服务平台”</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 shadow-md flex items-start space-x-4">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-map-marker text-primary text-xl"></i>
+          </div>
+          <div>
+            <h3 class="font-medium">服务大厅</h3>
+            <p class="text-sm text-gray-600 mt-1">西湖区服务大厅</p>
+            <p class="text-xs text-gray-500 mt-1">湖滨路123号烟草大厦1楼</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white border-t mt-16">
+    <div class="container mx-auto px-4 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <i class="fa fa-leaf text-primary text-2xl"></i>
+            <h2 class="text-lg font-bold text-primary">杭烟通</h2>
+          </div>
+          <p class="text-sm text-gray-600">杭州烟草零售户智慧服务平台</p>
+          <div class="mt-4 flex space-x-4">
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="fa fa-weibo"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="fa fa-weixin"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="fa fa-youtube-play"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="font-medium mb-4">快速链接</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 hover:text-primary">首页</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">证照管理</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">营销指导</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">客户反馈</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">政策推送</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-medium mb-4">服务支持</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 hover:text-primary">常见问题</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">操作指南</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">视频教程</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">联系我们</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">意见反馈</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-medium mb-4">关于我们</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 hover:text-primary">杭州烟草简介</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">组织架构</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">新闻动态</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">社会责任</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-primary">廉政建设</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t mt-8 pt-6 text-center text-sm text-gray-500">
+        <p>© 2024 杭州烟草专卖局（公司） 版权所有</p>
+        <p class="mt-2">浙ICP备XXXXXXXX号-1</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script>
+    // 设置当前日期
+    document.addEventListener('DOMContentLoaded', function() {
+      const date = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = date.toLocaleDateString('zh-CN', options);
+      
+      // 移动端菜单切换
+      document.getElementById('menu-toggle').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // 导航栏滚动效果
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 10) {
+          navbar.classList.add('py-2');
+          navbar.classList.add('shadow-lg');
+        } else {
+          navbar.classList.remove('py-2');
+          navbar.classList.remove('shadow-lg');
+        }
+      });
+      
+      // 销售趋势图表
+      const salesCtx = document.getElementById('sales-chart').getContext('2d');
+      new Chart(salesCtx, {
+        type: 'line',
+        data: {
+          labels: ['5/3', '5/10', '5/17', '5/24', '5/31', '6/7'],
+          datasets: [{
+            label: '销量（条）',
+            data: [120, 190, 170, 210, 180, 230],
+            borderColor: '#1A663A',
+            backgroundColor: 'rgba(26, 102, 58, 0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                font: {
+                  size: 10
+                }
+              }
+            },
+            x: {
+              ticks: {
+                font: {
+                  size: 10
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // 品类图表
+      const categoryCtx = document.getElementById('category-chart').getContext('2d');
+      new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['利群系列', '中华系列', '西湖文创', '其他'],
+          datasets: [{
+            data: [42, 28, 15, 15],
+            backgroundColor: [
+              '#1A663A',
+              '#FF9F1C',
+              '#E63946',
+              '#A8DADC'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 10
+                },
+                padding: 10
+              }
+            }
+          },
+          cutout: '70%'
+        }
+      });
+    });
+  </script>
+</body>
+</html>    

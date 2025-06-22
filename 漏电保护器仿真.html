@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>智能漏电保护器仿真——汕头供电局人工智能学习</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; background: #f4f4f5; }
+    header { background: #2563eb; color: white; padding: 1em 2em; font-size: 1.4em; font-weight: bold; }
+    .main { display: flex; flex-direction: row; height: 100vh; }
+    .left { width: 28%; background: #ffffff; padding: 20px; overflow-y: auto; box-shadow: 2px 0 8px rgba(0,0,0,0.1);}
+    .right { flex: 1; padding: 20px; overflow-y: auto; }
+    .card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    label { display: block; margin-top: 10px; font-size: 14px; }
+    input[type="number"], input[type="range"] { width: 100%; padding: 6px; margin-top: 4px; }
+    button { margin-top: 10px; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }
+    .green { background: #10b981; color: white; }
+    .red { background: #ef4444; color: white; }
+    .yellow { background: #f59e0b; color: white; }
+    .blue { background: #3b82f6; color: rgb(150, 92, 92); }
+    canvas { width: 100%; background: #f0f0f0; border-radius: 6px; }
+    textarea { width: 100%; height: 100px; }
+    select { width: 100%; padding: 8px; margin-top: 10px; border-radius: 4px; }
+    .breaker-container { display: flex; align-items: center; }
+    .breaker-switch { position: relative; width: 100px; height: 100px; }
+    .breaker-line { stroke-width: 8; stroke-linecap: round; }
+    .theory-box { padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 10px; }
+    /* 日志记录窗口样式 */
+    .log-container { max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 10px; }
+    .log-table { width: 100%; border-collapse: collapse; }
+    .log-table th, .log-table td { padding: 8px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .log-table th { background-color: #f9fafb; position: sticky; top: 0; }
+    .log-table tr:hover { background-color: #f9fafb; }
+    .log-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
+    .log-actions button { margin-left: 10px; }
+    /* 波形图放大样式 */
+    .chart-container { position: relative; }
+    .chart-actions { position: absolute; top: 10px; right: 10px; z-index: 10; }
+    .chart-actions button { margin: 0; padding: 5px 10px; font-size: 12px; opacity: 0.8; }
+    .chart-actions button:hover { opacity: 1; }
+    #waveformChart { height: 250px; }
+    /* 模态框样式 */
+    .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+    .modal-content { background-color: white; margin: 5% auto; padding: 20px; width: 80%; height: 80%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .close-modal { font-size: 24px; font-weight: bold; cursor: pointer; }
+    .modal-body { height: calc(100% - 60px); }
+    #enlargedChartContainer { width: 100%; height: 100%; }
+    #enlargedWaveformChart { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <header>智能漏电保护器仿真——汕头供电局人工智能学习班</header>
+  <div class="main">
+    <div class="left">
+      <div class="card">
+        <h3>🛠 参数设置</h3>
+        <label>漏电阈值 (mA)<input id="thLeak" type="number" value="30"></label>
+        <label>过流阈值 (A)<input id="thOver" type="number" value="50"></label>
+        <label>欠压阈值 (V)<input id="thUnder" type="number" value="180"></label>
+        <label>过压阈值 (V)<input id="thOverV" type="number" value="260"></label>
+        <label>温度阈值 (°C)<input id="thTemp" type="number" value="85"></label>
+        <label>三相不平衡阈值 (%)<input id="thUnbalance" type="number" value="20"></label>
+        <button class="green">开始测试</button>
+        <button class="red">结束测试</button>
+        <button class="blue" id="resetBtn">设备复原</button>
+      </div>
+      <div class="card">
+        <h3>⚠️ 故障模拟</h3>
+        <button class="yellow">短路</button>
+        <button class="yellow">缺相</button>
+        <button class="yellow">三相不平衡</button>
+        <button class="yellow">过热</button>
+        <button class="yellow">绝缘老化</button>
+        <button class="yellow">接触不良</button>
+        <button class="yellow">过载</button>
+      </div>
+      <div class="card">
+        <h3>📈 实时测量</h3>
+        <label>电流 (A)：<span id="lblCurrent">0</span></label>
+        <input id="valCurrent" type="range" min="0" max="200" value="0">
+        <label>电压 (V)：<span id="lblVolt">220</span></label>
+        <input id="valVolt" type="range" min="0" max="400" value="220">
+        <label>漏电 (mA)：<span id="lblLeak">0</span></label>
+        <input id="valLeak" type="range" min="0" max="100" value="0">
+        <label>温度 (°C)：<span id="lblTemp">25</span></label>
+        <input id="valTemp" type="range" min="0" max="150" value="25">
+        <label>三相不平衡度 (%)：<span id="lblUnbalance">0</span></label>
+        <input id="valUnbalance" type="range" min="0" max="100" value="0">
+      </div>
+      <div class="card" id="theoryPanel">
+        <h3>📋 当前版本</h3>
+        <p id="versionInfo">v0.2，发布时间：2025-06-01</p>
+      </div>
+    </div>
+    <div class="right">
+      <div class="card">
+        <h3>🔍 状态监控</h3>
+        <div class="breaker-container">
+          <svg id="breakerIcon" width="100" height="100" viewBox="0 0 100 100">
+            <!-- 断路器外壳 -->
+            <rect x="10" y="10" width="80" height="80" rx="5" fill="#e5e7eb" stroke="#6b7280" stroke-width="2"/>
+            <!-- 断路器开关 -->
+            <line id="switchLine1" x1="30" y1="30" x2="70" y2="30" class="breaker-line" stroke="#10b981" />
+            <line id="switchLine2" x1="30" y1="70" x2="70" y2="70" class="breaker-line" stroke="#10b981" />
+            <!-- 连接线 -->
+            <line id="connectionLine" x1="50" y1="30" x2="50" y2="70" class="breaker-line" stroke="#10b981" />
+            <!-- 状态指示 -->
+            <circle cx="50" cy="50" r="15" fill="#10b981"/>
+            <text x="50" y="55" font-size="14" fill="white" text-anchor="middle">闭</text>
+          </svg>
+          <div>
+            <p>开关状态：<span id="statusText" style="color:#10b981">闭合</span></p>
+            <p>用户电流：<span id="userCurrent">0A</span></p>
+            <p>故障原因：<span id="faultReason" style="color:red">--</span></p>
+          </div>
+        </div>
+        <div class="theory-box">
+          <h4>断路器原理与故障分析</h4>
+          <p>智能漏电保护器通过检测电路中的漏电电流，当漏电超过阈值时自动断开电路，保护人身安全。</p>
+          <p id="faultExplanation">当前无故障。</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📊 波形监测</h3>
+        <select id="waveformSelect">
+          <option value="current">三相电流</option>
+          <option value="voltage">三相电压</option>
+          <option value="power">三相功率</option>
+          <option value="leakage">漏电电流</option>
+        </select>
+        <div id="chartContainer" class="chart-container">
+          <div class="chart-actions">
+            <button class="blue" id="enlargeBtn">放大</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📝 日志记录</h3>
+        <div class="log-container">
+          <table class="log-table" id="logTable">
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>事件类型</th>
+                <th>详细信息</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody">
+              <!-- 日志记录将在这里动态添加 -->
+            </tbody>
+          </table>
+        </div>
+        <div class="log-actions">
+          <button class="blue" id="clearLogBtn">清空日志</button>
+          <button class="green" id="exportCsvBtn">导出CSV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 波形图放大模态框 -->
+  <div id="waveformModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">波形详细查看</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="enlargedChartContainer"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+let isRunning = false;
+let logs = [];
+let faultType = "";
+let temperature = 25;
+let unbalanceRate = 0;
+let lastFaultTime = null;
+let lastFaultEvent = "";
+
+document.querySelector('.green').addEventListener('click', () => {
+  isRunning = true;
+  updateBreakerStatus(true);
+  logEvent("系统", "测试开始", "保护器开始运行");
+  document.getElementById("faultExplanation").innerText = "当前无故障。";
+});
+
+document.querySelector('.red').addEventListener('click', () => {
+  isRunning = false;
+  updateBreakerStatus(false);
+  logEvent("系统", "测试结束", "保护器停止运行");
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  isRunning = true;
+  updateBreakerStatus(true);
+  document.getElementById("faultReason").innerText = "--";
+  document.getElementById("faultExplanation").innerText = "设备已复原，正常运行中。";
+  document.getElementById("valCurrent").value = 0;
+  document.getElementById("valVolt").value = 220;
+  document.getElementById("valLeak").value = 0;
+  document.getElementById("valTemp").value = 25;
+  document.getElementById("valUnbalance").value = 0;
+  faultType = "";
+  logEvent("系统", "设备复原", "所有参数已重置为默认值");
+  updateDisplay();
+});
+
+document.getElementById('clearLogBtn').addEventListener('click', () => {
+  logs = [];
+  updateLogTable();
+  logEvent("系统", "日志清空", "用户手动清空日志记录");
+});
+
+document.getElementById('exportCsvBtn').addEventListener('click', () => {
+  exportLogToCsv();
+});
+
+// 波形图放大按钮事件
+document.getElementById('enlargeBtn').addEventListener('click', () => {
+  openWaveformModal();
+});
+
+// 关闭模态框
+document.querySelector('.close-modal').addEventListener('click', () => {
+  closeWaveformModal();
+});
+
+// 点击模态框外部关闭
+window.addEventListener('click', (event) => {
+  if (event.target === document.getElementById('waveformModal')) {
+    closeWaveformModal();
+  }
+});
+
+function updateDisplay() {
+  let i = document.getElementById("valCurrent").value;
+  let v = document.getElementById("valVolt").value;
+  let l = document.getElementById("valLeak").value;
+  let t = document.getElementById("valTemp").value;
+  let u = document.getElementById("valUnbalance").value;
+  
+  document.getElementById("lblCurrent").innerText = i;
+  document.getElementById("lblVolt").innerText = v;
+  document.getElementById("lblLeak").innerText = l;
+  document.getElementById("lblTemp").innerText = t;
+  document.getElementById("lblUnbalance").innerText = u;
+  document.getElementById("userCurrent").innerText = i + "A";
+  
+  // 检查漏电跳闸
+  if (isRunning && (l >= parseInt(document.getElementById("thLeak").value))) {
+    if (faultType !== "漏电") {
+      updateBreakerStatus(false);
+      faultType = "漏电";
+      document.getElementById("faultReason").innerText = "漏电保护";
+      document.getElementById("faultExplanation").innerText = "检测到漏电电流超过设定阈值，保护器自动断开电路，防止触电事故。";
+      logEvent("保护", "漏电跳闸", `漏电电流 ${l}mA 超过阈值 ${document.getElementById("thLeak").value}mA`);
+    }
+  }
+  
+  // 检查过流跳闸
+  if (isRunning && (i >= parseInt(document.getElementById("thOver").value))) {
+    if (faultType !== "过流") {
+      updateBreakerStatus(false);
+      faultType = "过流";
+      document.getElementById("faultReason").innerText = "过流保护";
+      document.getElementById("faultExplanation").innerText = "检测到电流超过设定阈值，保护器自动断开电路，防止线路过热和火灾。";
+      logEvent("保护", "过流跳闸", `电流 ${i}A 超过阈值 ${document.getElementById("thOver").value}A`);
+    }
+  }
+  
+  // 检查欠压跳闸
+  if (isRunning && (v <= parseInt(document.getElementById("thUnder").value))) {
+    if (faultType !== "欠压") {
+      updateBreakerStatus(false);
+      faultType = "欠压";
+      document.getElementById("faultReason").innerText = "欠压保护";
+      document.getElementById("faultExplanation").innerText = "检测到电压低于设定阈值，保护器自动断开电路，防止设备损坏。";
+      logEvent("保护", "欠压跳闸", `电压 ${v}V 低于阈值 ${document.getElementById("thUnder").value}V`);
+    }
+  }
+  
+  // 检查过压跳闸
+  if (isRunning && (v >= parseInt(document.getElementById("thOverV").value))) {
+    if (faultType !== "过压") {
+      updateBreakerStatus(false);
+      faultType = "过压";
+      document.getElementById("faultReason").innerText = "过压保护";
+      document.getElementById("faultExplanation").innerText = "检测到电压超过设定阈值，保护器自动断开电路，防止设备损坏。";
+      logEvent("保护", "过压跳闸", `电压 ${v}V 超过阈值 ${document.getElementById("thOverV").value}V`);
+    }
+  }
+  
+  // 检查过热跳闸
+  if (isRunning && (t >= parseInt(document.getElementById("thTemp").value))) {
+    if (faultType !== "过热") {
+      updateBreakerStatus(false);
+      faultType = "过热";
+      document.getElementById("faultReason").innerText = "过热保护";
+      document.getElementById("faultExplanation").innerText = "检测到设备温度超过安全阈值，保护器自动断开电路，防止设备损坏和火灾。";
+      logEvent("保护", "过热跳闸", `温度 ${t}°C 超过阈值 ${document.getElementById("thTemp").value}°C`);
+    }
+  }
+  
+  // 检查三相不平衡跳闸
+  if (isRunning && (u >= parseInt(document.getElementById("thUnbalance").value))) {
+    if (faultType !== "三相不平衡") {
+      updateBreakerStatus(false);
+      faultType = "三相不平衡";
+      document.getElementById("faultReason").innerText = "三相不平衡保护";
+      document.getElementById("faultExplanation").innerText = "检测到三相电流不平衡度超过设定阈值，保护器自动断开电路，防止电机损坏。";
+      logEvent("保护", "三相不平衡跳闸", `不平衡度 ${u}% 超过阈值 ${document.getElementById("thUnbalance").value}%`);
+    }
+  }
+}
+
+function updateBreakerStatus(state) {
+  // 更新SVG断路器状态
+  const switchLine1 = document.getElementById("switchLine1");
+  const switchLine2 = document.getElementById("switchLine2");
+  const connectionLine = document.getElementById("connectionLine");
+  const statusCircle = document.getElementById("breakerIcon").children[4];
+  const statusText = document.getElementById("breakerIcon").children[5];
+  const statusLabel = document.getElementById("statusText");
+
+  if (state) {
+    // 闭合状态
+    switchLine1.setAttribute("stroke", "#10b981");
+    switchLine2.setAttribute("stroke", "#10b981");
+    connectionLine.setAttribute("stroke", "#10b981");
+    connectionLine.setAttribute("x1", "50");
+    connectionLine.setAttribute("y1", "30");
+    connectionLine.setAttribute("x2", "50");
+    connectionLine.setAttribute("y2", "70");
+    statusCircle.setAttribute("fill", "#10b981");
+    statusText.innerHTML = "闭";
+    statusLabel.innerText = "闭合";
+    statusLabel.style.color = "#10b981";
+    
+    // 记录合闸事件
+    if (faultType) {
+      logEvent("操作", "手动合闸", `从${faultType}故障中恢复`);
+      faultType = "";
+    }
+  } else {
+    // 断开状态
+    switchLine1.setAttribute("stroke", "#ef4444");
+    switchLine2.setAttribute("stroke", "#ef4444");
+    connectionLine.setAttribute("stroke", "#ef4444");
+    connectionLine.setAttribute("x1", "50");
+    connectionLine.setAttribute("y1", "30");
+    connectionLine.setAttribute("x2", "70");
+    connectionLine.setAttribute("y2", "50");
+    statusCircle.setAttribute("fill", "#ef4444");
+    statusText.innerHTML = "断";
+    statusLabel.innerText = "断开";
+    statusLabel.style.color = "#ef4444";
+  }
+}
+
+function logEvent(category, event, details) {
+  const timestamp = new Date();
+  
+  // 防止重复记录同类型故障
+  if (category === "保护" || category === "故障") {
+    // 如果是同一类型的故障且在5秒内，则不重复记录
+    if (lastFaultTime && lastFaultEvent === event && 
+        (timestamp - lastFaultTime) < 5000) {
+      return;
+    }
+    lastFaultTime = timestamp;
+    lastFaultEvent = event;
+  }
+  
+  logs.push({
+    time: timestamp,
+    timeString: timestamp.toLocaleString(),
+    category: category,
+    event: event,
+    details: details
+  });
+  updateLogTable();
+}
+
+function updateLogTable() {
+  const tbody = document.getElementById("logTableBody");
+  tbody.innerHTML = "";
+  
+  // 按时间倒序排列，最新的日志显示在顶部
+  const sortedLogs = [...logs].reverse();
+  
+  sortedLogs.forEach(log => {
+    const row = document.createElement("tr");
+    
+    const timeCell = document.createElement("td");
+    timeCell.textContent = log.timeString;
+    row.appendChild(timeCell);
+    
+    const eventCell = document.createElement("td");
+    eventCell.textContent = log.event;
+    row.appendChild(eventCell);
+    
+    const detailsCell = document.createElement("td");
+    detailsCell.textContent = log.details;
+    row.appendChild(detailsCell);
+    
+    tbody.appendChild(row);
+  });
+}
+
+function exportLogToCsv() {
+  if (logs.length === 0) {
+    alert("没有日志记录可导出");
+    return;
+  }
+  
+  // 创建CSV内容
+  let csvContent = "时间,事件类型,详细信息\n";
+  
+  logs.forEach(log => {
+    // 处理CSV中的特殊字符
+    const details = log.details.replace(/"/g, '""');
+    csvContent += `"${log.timeString}","${log.event}","${details}"\n`;
+  });
+  
+  // 创建Blob对象并下载
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `漏电保护器日志_${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+  
+  logEvent("系统", "导出日志", "用户导出CSV格式日志文件");
+}
+
+// 打开波形图放大模态框
+function openWaveformModal() {
+  const modal = document.getElementById('waveformModal');
+  modal.style.display = 'block';
+  document.getElementById('modalTitle').innerText = getWaveformTitle() + " - 详细查看";
+  
+  // 创建放大版波形图
+  if (!document.getElementById('enlargedWaveformChart')) {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'enlargedWaveformChart';
+    document.getElementById('enlargedChartContainer').appendChild(canvas);
+  }
+  
+  // 复制当前波形图的配置和数据
+  createEnlargedChart();
+}
+
+// 关闭波形图放大模态框
+function closeWaveformModal() {
+  document.getElementById('waveformModal').style.display = 'none';
+  
+  // 清除放大版波形图
+  if (enlargedChart) {
+    enlargedChart.destroy();
+    enlargedChart = null;
+  }
+}
+
+// 创建放大版波形图
+let enlargedChart = null;
+function createEnlargedChart() {
+  if (enlargedChart) {
+    enlargedChart.destroy();
+  }
+  
+  const ctx = document.getElementById('enlargedWaveformChart').getContext('2d');
+  
+  // 直接使用与当前波形图相同的配置创建新图表
+  // 不使用JSON序列化和反序列化，避免丢失函数和复杂对象
+  enlargedChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length: dataPoints}, (_, i) => i),
+      datasets: []
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          min: currentChart.options.scales.y.min, 
+          max: currentChart.options.scales.y.max,
+          title: {
+            display: true,
+            text: currentChart.options.scales.y.title.text
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: '时间 (ms)'
+          }
+        }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: getWaveformTitle() + " - 详细查看",
+          font: {
+            size: 18
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+        },
+        legend: {
+          position: 'top',
+        }
+      }
+    }
+  });
+  
+  // 复制数据集
+  currentChart.data.datasets.forEach(dataset => {
+    // 创建新的数据集对象
+    const newDataset = {
+      label: dataset.label,
+      data: [...dataset.data],  // 复制数据数组
+      borderColor: dataset.borderColor,
+      borderWidth: dataset.borderWidth,
+      fill: dataset.fill,
+      tension: dataset.tension
+    };
+    
+    // 添加到放大图表
+    enlargedChart.data.datasets.push(newDataset);
+  });
+  
+  // 更新图表
+  enlargedChart.update();
+}
+
+// 更新放大版波形图
+function updateEnlargedChart() {
+  if (enlargedChart && document.getElementById('waveformModal').style.display === 'block') {
+    // 复制当前波形图的数据
+    currentChart.data.datasets.forEach((dataset, i) => {
+      enlargedChart.data.datasets[i].data = [...dataset.data];
+    });
+    
+    // 更新图表
+    enlargedChart.update('none');
+  }
+}
+
+setInterval(updateDisplay, 1000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const faults = ["短路", "缺相", "三相不平衡", "过热", "绝缘老化", "接触不良", "过载"];
+const faultExplanations = [
+  "短路故障：电路中正负极直接接触，导致电流急剧增大，触发过流保护。",
+  "缺相故障：三相电源中一相或多相断开，导致设备无法正常工作。",
+  "三相不平衡：三相电流或电压不平衡，可能导致电机过热或振动。",
+  "过热故障：设备温度超过安全阈值，触发热保护。",
+  "绝缘老化：设备绝缘层老化，导致漏电增加，触发漏电保护。",
+  "接触不良：电气连接点接触不良，导致接触电阻增大，产生热量。",
+  "过载故障：负载超过设备额定容量，导致电流增大，触发过流保护。"
+];
+
+document.querySelectorAll('.yellow').forEach((btn, idx) => {
+  btn.addEventListener('click', () => {
+    if (!isRunning) return;
+    document.getElementById("faultReason").innerText = faults[idx];
+    document.getElementById("faultExplanation").innerText = faultExplanations[idx];
+    faultType = faults[idx];
+    updateBreakerStatus(false);
+    logEvent("故障", "触发故障", faults[idx]);
+    
+    // 根据故障类型模拟相应的参数变化
+    switch(faults[idx]) {
+      case "短路":
+        document.getElementById("valCurrent").value = 200;
+        break;
+      case "缺相":
+        document.getElementById("valUnbalance").value = 100;
+        break;
+      case "三相不平衡":
+        document.getElementById("valUnbalance").value = 30;
+        break;
+      case "过热":
+        document.getElementById("valTemp").value = 100;
+        break;
+      case "绝缘老化":
+        document.getElementById("valLeak").value = 50;
+        break;
+      case "接触不良":
+        document.getElementById("valTemp").value = 70;
+        document.getElementById("valCurrent").value = 30;
+        break;
+      case "过载":
+        document.getElementById("valCurrent").value = 80;
+        break;
+    }
+    updateDisplay();
+  });
+});
+
+// 波形图相关变量
+let currentChart;
+let currentWaveformType = "current";
+let chartContainer = document.getElementById("chartContainer");
+let dataPoints = 200; // 增加数据点数量，使波形更平滑
+
+// 波形选择器事件监听
+document.getElementById("waveformSelect").addEventListener("change", function() {
+  currentWaveformType = this.value;
+  setupWaveCharts();
+});
+
+function setupWaveCharts() {
+  // 清除现有图表
+  if (currentChart) {
+    currentChart.destroy();
+  }
+  
+  // 创建新的canvas元素
+  if (!chartContainer.querySelector("canvas")) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 400;
+    canvas.height = 250; // 增加高度
+    canvas.id = "waveformChart";
+    chartContainer.appendChild(canvas);
+  }
+  
+  const ctx = document.getElementById("waveformChart").getContext("2d");
+  
+  // 根据选择的波形类型设置数据集
+  let datasets = [];
+  let yAxisLabel = "";
+  let yMin = -100;
+  let yMax = 100;
+  
+  switch(currentWaveformType) {
+    case "current":
+      datasets = [
+        {
+          label: 'A相电流',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'red',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3, // 添加曲线平滑
+        },
+        {
+          label: 'B相电流',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'blue',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'C相电流',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'green',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        }
+      ];
+      yAxisLabel = "电流 (A)";
+      break;
+    case "voltage":
+      datasets = [
+        {
+          label: 'A相电压',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'red',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'B相电压',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'blue',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'C相电压',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'green',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        }
+      ];
+      yAxisLabel = "电压 (V)";
+      yMin = -400;
+      yMax = 400;
+      break;
+    case "power":
+      datasets = [
+        {
+          label: 'A相功率',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'red',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'B相功率',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'blue',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'C相功率',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'green',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.3,
+        }
+      ];
+      yAxisLabel = "功率 (kW)";
+      yMin = 0;
+      yMax = 20;
+      break;
+    case "leakage":
+      datasets = [
+        {
+          label: '漏电电流',
+          data: Array(dataPoints).fill(0),
+          borderColor: 'purple',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.3,
+        }
+      ];
+      yAxisLabel = "漏电电流 (mA)";
+      yMin = 0;
+      yMax = 100;
+      break;
+  }
+  
+  // 创建图表
+  currentChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length: dataPoints}, (_, i) => i),
+      datasets: datasets
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          min: yMin, 
+          max: yMax,
+          title: {
+            display: true,
+            text: yAxisLabel
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: '时间 (ms)'
+          }
+        }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: getWaveformTitle()
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+        },
+        legend: {
+          position: 'top',
+        }
+      }
+    }
+  });
+}
+
+function getWaveformTitle() {
+  switch(currentWaveformType) {
+    case "current": return "三相电流波形";
+    case "voltage": return "三相电压波形";
+    case "power": return "三相功率波形";
+    case "leakage": return "漏电电流波形";
+    default: return "波形监测";
+  }
+}
+
+function updateWaveform() {
+  if (!currentChart) return;
+  
+  const t = Date.now() / 1000;
+  const currentValue = parseInt(document.getElementById("valCurrent").value);
+  const voltageValue = parseInt(document.getElementById("valVolt").value);
+  const leakValue = parseInt(document.getElementById("valLeak").value);
+  const unbalanceValue = parseInt(document.getElementById("valUnbalance").value) / 100; // 转换为小数
+  
+  // 断路器状态影响波形
+  const breakerClosed = document.getElementById("statusText").innerText === "闭合";
+  
+  // 计算相位差，标准为120度，转换为弧度约为2.09
+  const phaseB = 2.09;
+  const phaseC = 4.19;
+  
+  // 添加不平衡因子
+  const unbalanceFactor = 1 - unbalanceValue;
+  
+  switch(currentWaveformType) {
+    case "current":
+      // 三相电流波形
+      if (breakerClosed) {
+        const amplitude = currentValue / 2;
+        // 使用更精确的正弦波计算，并添加小的随机波动使波形更自然
+        const phaseA = 2 * Math.PI * 50 * t;
+        currentChart.data.datasets[0].data.push(amplitude * Math.sin(phaseA) + amplitude * 0.02 * (Math.random() - 0.5));
+        currentChart.data.datasets[1].data.push(amplitude * unbalanceFactor * Math.sin(phaseA + phaseB) + amplitude * 0.02 * (Math.random() - 0.5));
+        currentChart.data.datasets[2].data.push(amplitude * unbalanceFactor * Math.sin(phaseA + phaseC) + amplitude * 0.02 * (Math.random() - 0.5));
+      } else {
+        // 断路器断开，电流为0
+        currentChart.data.datasets[0].data.push(0);
+        currentChart.data.datasets[1].data.push(0);
+        currentChart.data.datasets[2].data.push(0);
+      }
+      break;
+    case "voltage":
+      // 三相电压波形
+      const vAmplitude = voltageValue / 1.414;
+      const phaseA = 2 * Math.PI * 50 * t;
+      currentChart.data.datasets[0].data.push(vAmplitude * Math.sin(phaseA) + vAmplitude * 0.01 * (Math.random() - 0.5));
+      currentChart.data.datasets[1].data.push(vAmplitude * Math.sin(phaseA + phaseB) + vAmplitude * 0.01 * (Math.random() - 0.5));
+      currentChart.data.datasets[2].data.push(vAmplitude * Math.sin(phaseA + phaseC) + vAmplitude * 0.01 * (Math.random() - 0.5));
+      break;
+    case "power":
+      // 三相功率波形
+      if (breakerClosed) {
+        const power = (currentValue * voltageValue) / 1000; // kW
+        const phaseA = 2 * Math.PI * 50 * t;
+        currentChart.data.datasets[0].data.push(power * Math.abs(Math.sin(phaseA)) + power * 0.03 * Math.random());
+        currentChart.data.datasets[1].data.push(power * unbalanceFactor * Math.abs(Math.sin(phaseA + phaseB)) + power * 0.03 * Math.random());
+        currentChart.data.datasets[2].data.push(power * unbalanceFactor * Math.abs(Math.sin(phaseA + phaseC)) + power * 0.03 * Math.random());
+      } else {
+        // 断路器断开，功率为0
+        currentChart.data.datasets[0].data.push(0);
+        currentChart.data.datasets[1].data.push(0);
+        currentChart.data.datasets[2].data.push(0);
+      }
+      break;
+    case "leakage":
+      // 漏电电流波形 - 添加更自然的波动
+      const baseLeakage = leakValue * (0.9 + 0.1 * Math.sin(2 * Math.PI * 10 * t));
+      currentChart.data.datasets[0].data.push(baseLeakage + leakValue * 0.05 * (Math.random() - 0.5));
+      break;
+  }
+  
+  // 移除旧数据点
+  currentChart.data.datasets.forEach(d => d.data.shift());
+  
+  // 更新图表
+  currentChart.update('none'); // 使用'none'模式更新以提高性能
+  
+  // 更新放大版波形图
+  updateEnlargedChart();
+}
+
+// 初始化波形图
+setupWaveCharts();
+
+// 定时更新波形，提高更新频率使波形更平滑
+setInterval(updateWaveform, 50);
+
+// 初始化日志表格
+updateLogTable();
+
+// 记录初始化完成事件
+logEvent("系统", "初始化", "漏电保护器仿真系统已启动");
+</script>
