@@ -1,64 +1,139 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>崔博士的 AI 演示页面</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>崔博士的 AI 演示页面</title>
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
 
-    .container {
-      width: 80%;
-      margin: 50px auto;
-      background-color: #fff;
-      padding: 20px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
 
-    h1 {
-      text-align: center;
-      color: #333;
-    }
+        /* 页面容器 */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+        /* 头部区域 */
+        .header {
+            background: linear-gradient(120deg, #0066cc, #004499);
+            padding: 40px;
+            text-align: center;
+            color: #fff;
+        }
 
-    li {
-      margin: 10px 0;
-    }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
 
-    a {
-      text-decoration: none;
-      color: #007bff;
-    }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        /* 内容列表区域 */
+        .content {
+            padding: 30px;
+        }
+
+        .content ul {
+            list-style: none;
+        }
+
+        .content li {
+            margin: 15px 0;
+            padding: 18px;
+            background-color: #f9fbff;
+            border-left: 5px solid #0066cc;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .content li:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .content a {
+            text-decoration: none;
+            color: #0066cc;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        /* 联系信息区域 */
+        .contact {
+            background-color: #eaf2ff;
+            padding: 25px 30px;
+            border-top: 1px solid #d9e6f2;
+        }
+
+        .contact p {
+            margin: 8px 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .content li {
+                padding: 14px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>崔博士的 AI 演示页面</h1>
-    <ul>
-      <li><a href="停电仪表盘.html">停电仪表盘</a></li>
-      <li><a href="发电机模拟器.html">发电机模拟器</a></li>
-      <li><a href="变压器模拟器.html">变压器模拟器</a></li>
-      <li><a href="文创服务网站.html">文创服务网站</a></li>
-      <li><a href="漏电保护器仿真.html">漏电保护器仿真</a></li>
-      <li><a href="烟草行业一体化服务平台.html">烟草行业一体化服务平台</a></li>
-      <li><a href="知识产权服务.html">法律行业知识产权服务平台</a></li>
-    </ul>
-  </div>
-</body>
+    <div class="container">
+        <!-- 头部标题区域 -->
+        <div class="header">
+            <h1>崔博士的 AI 演示页面</h1>
+            <p>专注于 AI 技术演示与实践</p>
+        </div>
 
+        <!-- 演示链接列表 -->
+        <div class="content">
+            <ul>
+                <li><a href="停电仪表盘.html">停电仪表盘</a></li>
+                <li><a href="发电机模拟器.html">发电机模拟器</a></li>
+                <li><a href="变压器模拟器.html">变压器模拟器</a></li>
+                <li><a href="文创服务网站.html">文创服务网站</a></li>
+                <li><a href="漏电保护器仿真.html">漏电保护器仿真</a></li>
+                <li><a href="烟草行业一体化服务平台.html">烟草行业一体化服务平台</a></li>
+                <li><a href="知识产权服务.html">法律行业知识产权服务平台</a></li>
+            </ul>
+        </div>
+
+        <!-- 联系信息区域 -->
+        <div class="contact">
+            <p>联系人：崔伟博士</p>
+            <p>邮箱：13601300572@163.com</p>
+        </div>
+    </div>
+</body>
 </html>
