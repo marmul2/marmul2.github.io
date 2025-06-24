@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财智通 - 企业财务知识学习与培训平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        dark: '#1D2939',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-6 py-3 rounded-lg font-medium shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5;
+            }
+            .btn-secondary {
+                @apply bg-white text-primary border border-primary px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-0.5;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-light text-dark">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <span class="text-primary text-2xl font-bold">财智通</span>
+                    </a>
+                    <nav class="hidden md:ml-10 md:flex space-x-8">
+                        <a href="#home" class="text-dark hover:text-primary font-medium transition-colors">首页</a>
+                        <a href="#services" class="text-dark hover:text-primary font-medium transition-colors">业务指导</a>
+                        <a href="#courses" class="text-dark hover:text-primary font-medium transition-colors">培训课程</a>
+                        <a href="#policies" class="text-dark hover:text-primary font-medium transition-colors">政策推送</a>
+                        <a href="#feedback" class="text-dark hover:text-primary font-medium transition-colors">客户反馈</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#contact" class="hidden md:block btn-secondary">
+                        联系我们
+                    </a>
+                    <a href="#login" class="btn-primary">
+                        登录/注册
+                    </a>
+                    <button id="mobile-menu-button" class="md:hidden text-dark hover:text-primary focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">首页</a>
+                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">业务指导</a>
+                <a href="#courses" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">培训课程</a>
+                <a href="#policies" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">政策推送</a>
+                <a href="#feedback" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">客户反馈</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/5 hover:text-primary">联系我们</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="pt-28 md:pt-32 pb-20 bg-gradient-to-br from-primary/5 to-primary/10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0">
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-dark mb-6">
+                        专业财务知识，<br>
+                        <span class="text-primary">助力企业成长</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
+                        一站式企业财务知识学习与培训平台，提供最新财政政策解读、专业课程和一对一业务指导，帮助企业主轻松掌握财务知识，合理规划企业发展。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#courses" class="btn-primary">
+                            <i class="fa fa-book mr-2"></i> 开始学习
+                        </a>
+                        <a href="#policies" class="btn-secondary">
+                            <i class="fa fa-bullhorn mr-2"></i> 了解最新政策
+                        </a>
+                    </div>
+                    <div class="mt-10 flex items-center space-x-6">
+                        <div class="flex -space-x-2">
+                            <img src="https://picsum.photos/id/1001/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/id/1002/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/id/1003/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/id/1004/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                        </div>
+                        <div>
+                            <div class="flex items-center text-amber-500 mb-1">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                                <span class="ml-2 text-dark font-medium">4.8/5</span>
+                            </div>
+                            <p class="text-sm text-gray-600">来自 1000+ 企业的信赖</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-primary/20 rounded-2xl blur-xl opacity-60 animate-blob"></div>
+                        <img src="https://picsum.photos/id/3/600/400" alt="企业财务培训" class="relative rounded-xl shadow-2xl">
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fa fa-line-chart text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">本月节省</p>
+                                    <p class="font-bold text-lg">¥1,250,000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa fa-users text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">学员增长</p>
+                                    <p class="font-bold text-lg">+32%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-primary mb-2" id="counter1">0</div>
+                    <p class="text-gray-600">培训课程</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-primary mb-2" id="counter2">0</div>
+                    <p class="text-gray-600">注册企业</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-primary mb-2" id="counter3">0</div>
+                    <p class="text-gray-600">政策解读</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-primary mb-2" id="counter4">0</div>
+                    <p class="text-gray-600">专业讲师</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 业务指导 -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">业务指导</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    我们提供全方位的财务业务指导，帮助企业解决实际财务问题，优化财务管理流程，提升企业财务运营效率。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 业务指导卡片 1 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-calculator text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">税务筹划</h3>
+                    <p class="text-gray-600 mb-4">
+                        专业团队为企业提供税务规划服务，合理避税，降低企业税务负担，确保企业税务合规。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            企业所得税优化
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            增值税筹划
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            个人所得税规划
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- 业务指导卡片 2 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-line-chart text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">财务分析</h3>
+                    <p class="text-gray-600 mb-4">
+                        通过专业的财务数据分析，帮助企业了解经营状况，发现潜在问题，为企业决策提供数据支持。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            财务报表分析
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            成本效益分析
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            预算编制与执行
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- 业务指导卡片 3 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-briefcase text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">融资指导</h3>
+                    <p class="text-gray-600 mb-4">
+                        为企业提供融资策略建议，对接合适的融资渠道，帮助企业解决资金难题，实现快速发展。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            银行贷款指导
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            股权融资服务
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fa fa-check text-green-500 mr-2"></i>
+                            债券融资方案
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 培训课程 -->
+    <section id="courses" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
+                <div>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">精选培训课程</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl">
+                        由资深财务专家打造的系统化课程，涵盖企业财务管理的各个方面，助您全面提升财务能力。
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <a href="#" class="btn-secondary">
+                        查看全部课程 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 课程卡片 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/26/600/400" alt="最新税收政策解读与应用" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-sm font-medium px-3 py-1 rounded-full">
+                            热门
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white text-primary text-sm font-medium px-3 py-1 rounded-full">
+                            线上课程
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-500">财务税务</span>
+                            <div class="flex items-center text-amber-500 text-sm">
+                                <i class="fa fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.9</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">最新税收政策解读与应用</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">
+                            全面解读最新税收政策，帮助企业理解政策变化，掌握应用技巧，合理降低税务成本。
+                        </p>
+                        <div class="flex justify-between items-center mt-6">
+                            <div>
+                                <img src="https://picsum.photos/id/1005/40/40" alt="讲师头像" class="w-10 h-10 rounded-full inline-block">
+                                <span class="ml-2 text-gray-700 font-medium">张教授</span>
+                            </div>
+                            <span class="text-primary font-bold text-xl">¥299</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/48/600/400" alt="企业财务管理实战" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-white text-primary text-sm font-medium px-3 py-1 rounded-full">
+                            线上课程
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-500">财务管理</span>
+                            <div class="flex items-center text-amber-500 text-sm">
+                                <i class="fa fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.8</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">企业财务管理实战</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">
+                            从实战角度出发，讲解企业财务管理的核心要点和方法，提升企业财务管理水平。
+                        </p>
+                        <div class="flex justify-between items-center mt-6">
+                            <div>
+                                <img src="https://picsum.photos/id/1006/40/40" alt="讲师头像" class="w-10 h-10 rounded-full inline-block">
+                                <span class="ml-2 text-gray-700 font-medium">李总监</span>
+                            </div>
+                            <span class="text-primary font-bold text-xl">¥399</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/60/600/400" alt="财务报表分析与风险控制" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-secondary text-white text-sm font-medium px-3 py-1 rounded-full">
+                            新课
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white text-primary text-sm font-medium px-3 py-1 rounded-full">
+                            线下课程
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-500">财务分析</span>
+                            <div class="flex items-center text-amber-500 text-sm">
+                                <i class="fa fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.7</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">财务报表分析与风险控制</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">
+                            深入解析财务报表，掌握财务分析方法，有效识别和控制企业财务风险。
+                        </p>
+                        <div class="flex justify-between items-center mt-6">
+                            <div>
+                                <img src="https://picsum.photos/id/1007/40/40" alt="讲师头像" class="w-10 h-10 rounded-full inline-block">
+                                <span class="ml-2 text-gray-700 font-medium">王老师</span>
+                            </div>
+                            <span class="text-primary font-bold text-xl">¥499</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 政策推送 -->
+    <section id="policies" class="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">最新政策推送</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    及时掌握最新财政优惠政策，助力企业享受政策红利，降低运营成本，提升竞争力。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 政策卡片 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-0.5 rounded">
+                                税收优惠
+                            </span>
+                            <span class="text-sm text-gray-500">2025-06-15</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">小微企业增值税减免政策延长至2026年</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            为进一步支持小微企业发展，现将小微企业增值税减免政策延长至2026年12月31日。对月销售额10万元以下（含本数）的增值税小规模纳税人，免征增值税。
+                        </p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 政策卡片 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2.5 py-0.5 rounded">
+                                财政补贴
+                            </span>
+                            <span class="text-sm text-gray-500">2025-06-10</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">科技创新企业研发费用加计扣除比例提高</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            为鼓励企业加大研发投入，提升自主创新能力，科技创新企业研发费用加计扣除比例由75%提高至100%，自2025年1月1日起执行。
+                        </p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 政策卡片 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2.5 py-0.5 rounded">
+                                融资支持
+                            </span>
+                            <span class="text-sm text-gray-500">2025-06-05</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">中小企业融资担保费用补贴政策实施</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            为缓解中小企业融资难、融资贵问题，对符合条件的中小企业融资担保业务，给予一定比例的担保费用补贴，补贴比例最高可达50%。
+                        </p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="btn-primary">
+                    查看更多政策 <i class="fa fa-bullhorn ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户反馈 -->
+    <section id="feedback" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
+                <div>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">客户反馈</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl">
+                        听听我们的客户怎么说，他们的真实体验和反馈是我们不断进步的动力。
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <div class="flex space-x-2">
+                        <button id="prev-feedback" class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors">
+                            <i class="fa fa-chevron-left"></i>
+                        </button>
+                        <button id="next-feedback" class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors">
+                            <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-slider overflow-hidden">
+                <div class="feedback-track flex transition-transform duration-500" style="transform: translateX(0%);">
+                    <!-- 反馈卡片 1 -->
+                    <div class="feedback-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-4">
+                        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://picsum.photos/id/1012/60/60" alt="客户头像" class="w-14 h-14 rounded-full">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">陈总</h4>
+                                    <p class="text-gray-500 text-sm">科技有限公司 CEO</p>
+                                </div>
+                            </div>
+                            <div class="flex text-amber-500 mb-4">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <p class="text-gray-600">
+                                "通过参加平台的税务筹划课程，我们成功降低了企业的税务成本，同时也避免了潜在的税务风险。讲师的专业水平很高，讲解深入浅出，实用性很强。"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 反馈卡片 2 -->
+                    <div class="feedback-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-4">
+                        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://picsum.photos/id/1027/60/60" alt="客户头像" class="w-14 h-14 rounded-full">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">林会计</h4>
+                                    <p class="text-gray-500 text-sm">贸易公司 财务经理</p>
+                                </div>
+                            </div>
+                            <div class="flex text-amber-500 mb-4">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </div>
+                            <p class="text-gray-600">
+                                "平台上的财务分析课程让我受益匪浅，学会了如何通过财务报表发现企业的潜在问题。政策推送也非常及时，让我们第一时间了解到最新的财政优惠政策。"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 反馈卡片 3 -->
+                    <div class="feedback-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-4">
+                        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://picsum.photos/id/1025/60/60" alt="客户头像" class="w-14 h-14 rounded-full">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">王总</h4>
+                                    <p class="text-gray-500 text-sm">制造企业 总经理</p>
+                                </div>
+                            </div>
+                            <div class="flex text-amber-500 mb-4">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <p class="text-gray-600">
+                                "感谢平台提供的融资指导服务，在专家的帮助下，我们成功获得了银行的贷款支持，解决了企业发展的资金瓶颈。现在企业已经步入了快速发展的轨道。"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 反馈卡片 4 -->
+                    <div class="feedback-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-4">
+                        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://picsum.photos/id/1074/60/60" alt="客户头像" class="w-14 h-14 rounded-full">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">赵总</h4>
+                                    <p class="text-gray-500 text-sm">餐饮连锁 创始人</p>
+                                </div>
+                            </div>
+                            <div class="flex text-amber-500 mb-4">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <p class="text-gray-600">
+                                "平台上的课程内容丰富实用，尤其是成本控制方面的课程，帮助我们优化了采购流程，降低了运营成本。客服团队的服务也非常专业，有问题都能及时得到解答。"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div class="p-8 md:p-12 lg:p-16">
+                        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-6">联系我们</h2>
+                        <p class="text-gray-600 mb-8">
+                            如有任何疑问或需要进一步了解我们的服务，请填写下方表单或通过以下方式联系我们，我们将尽快回复您。
+                        </p>
+                        
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">企业名称</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入企业名称" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱地址</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入邮箱地址" required>
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">联系电话</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入联系电话" required>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">咨询内容</label>
+                                <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入您的咨询内容" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full">
+                                提交咨询 <i class="fa fa-paper-plane ml-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="bg-primary p-8 md:p-12 lg:p-16 text-white">
+                        <h3 class="text-2xl font-bold mb-6">联系方式</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="fa fa-map-marker text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-medium mb-1">办公地址</h4>
+                                    <p class="text-white/80">北京市海淀区中关村南大街5号</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="fa fa-phone text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-medium mb-1">联系电话</h4>
+                                    <p class="text-white/80">400-123-4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="fa fa-envelope text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-medium mb-1">电子邮箱</h4>
+                                    <p class="text-white/80">contact@caizhitong.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="fa fa-clock-o text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-medium mb-1">工作时间</h4>
+                                    <p class="text-white/80">周一至周五: 9:00 - 18:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h3 class="text-2xl font-bold mb-6">关注我们</h3>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                    <i class="fa fa-weixin text-xl"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                    <i class="fa fa-weibo text-xl"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                    <i class="fa fa-linkedin text-xl"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                    <i class="fa fa-youtube-play text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="py-16 bg-primary">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">订阅最新政策动态</h2>
+                <p class="text-white/80 mb-8 text-lg">
+                    第一时间获取最新财政政策解读和优惠信息，助您的企业把握发展机遇
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="email" placeholder="请输入您的邮箱地址" class="flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30">
+                    <button type="submit" class="bg-white text-primary font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-white/20 transition-all duration-300 hover:-translate-y-0.5">
+                        立即订阅
+                    </button>
+                </form>
+                <p class="text-white/60 text-sm mt-4">
+                    我们尊重您的隐私，不会向任何第三方分享您的信息
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-6">财智通</h3>
+                    <p class="text-gray-400 mb-6">
+                        专业的企业财务知识学习与培训平台，助力企业健康发展，提升财务管理水平。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-youtube-play text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-medium mb-6">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">业务指导</a></li>
+                        <li><a href="#courses" class="text-gray-400 hover:text-white transition-colors">培训课程</a></li>
+                        <li><a href="#policies" class="text-gray-400 hover:text-white transition-colors">政策推送</a></li>
+                        <li><a href="#feedback" class="text-gray-400 hover:text-white transition-colors">客户反馈</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-medium mb-6">热门课程</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">最新税收政策解读与应用</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">企业财务管理实战</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">财务报表分析与风险控制</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">税务筹划与合规管理</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">融资策略与渠道对接</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-medium mb-6">联系方式</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">北京市海淀区中关村南大街5号</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-phone mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">400-123-4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">contact@caizhitong.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-clock-o mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">周一至周五: 9:00 - 18:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                        &copy; 2025 财智通 版权所有 | 京ICP备12345678号
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">隐私政策</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">服务条款</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">帮助中心</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.remove('bg-white/90');
+                navbar.classList.add('bg-white');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.add('bg-white/90');
+                navbar.classList.remove('bg-white');
+            }
+        });
+
+        // 移动端菜单
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 回到顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // 滚动到目标位置
+                    const navbarHeight = navbar.offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 数字计数器动画
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let startTime = null;
+            const startValue = 0;
+            
+            function updateCounter(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const currentValue = Math.floor(progress * (targetValue - startValue) + startValue);
+                
+                element.textContent = currentValue.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // 检测元素是否在视口中
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
+
+        // 滚动时检测并触发计数器
+        let countersAnimated = false;
+        window.addEventListener('scroll', () => {
+            if (!countersAnimated && isInViewport(document.getElementById('counter1'))) {
+                animateCounter('counter1', 120);
+                animateCounter('counter2', 5000);
+                animateCounter('counter3', 300);
+                animateCounter('counter4', 50);
+                countersAnimated = true;
+            }
+        });
+
+        // 客户反馈轮播
+        const track = document.querySelector('.feedback-track');
+        const slides = document.querySelectorAll('.feedback-slide');
+        const prevButton = document.getElementById('prev-feedback');
+        const nextButton = document.getElementById('next-feedback');
+        let currentIndex = 0;
+        let slideWidth = 100;
+        let slidesToShow = 1;
+
+        function updateSlidesToShow() {
+            if (window.innerWidth >= 1024) {
+                slidesToShow = 3;
+            } else if (window.innerWidth >= 768) {
+                slidesToShow = 2;
+            } else {
+                slidesToShow = 1;
+            }
+            slideWidth = 100 / slidesToShow;
+            updateSlideWidths();
+            updateSlidePosition();
+        }
+
+        function updateSlideWidths() {
+            slides.forEach(slide => {
+                slide.style.minWidth = `${slideWidth}%`;
+            });
+        }
+
+        function updateSlidePosition() {
+            track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = Math.max(currentIndex - 1, 0);
+            updateSlidePosition();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = Math.min(currentIndex + 1, slides.length - slidesToShow);
+            updateSlidePosition();
+        });
+
+        window.addEventListener('resize', updateSlidesToShow);
+        updateSlidesToShow();
+
+        // 联系表单提交
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 模拟表单提交
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 提交中...';
+            
+            setTimeout(() => {
+                // 显示成功消息
+                const formData = new FormData(contactForm);
+                const formValues = Object.fromEntries(formData.entries());
+                
+                // 这里可以添加实际的表单提交逻辑
+                console.log('表单提交成功:', formValues);
+                
+                // 重置表单
+                contactForm.reset();
+                
+                // 恢复按钮状态
+                submitButton.disabled = false;
+                submitButton.innerHTML = '提交成功 <i class="fa fa-check ml-2"></i>';
+                
+                // 3秒后恢复按钮原始文本
+                setTimeout(() => {
+                    submitButton.innerHTML = originalText;
+                }, 3000);
+                
+                // 显示成功提示
+                alert('感谢您的咨询，我们将尽快与您联系！');
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+    
