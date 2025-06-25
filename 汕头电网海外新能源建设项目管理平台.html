@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>汕头电网海外新能源建设项目管理平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#0E2E99',
+            accent: '#36CFC9',
+            light: '#F0F5FF',
+            dark: '#0D226B',
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-hover {
+        @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+      }
+      .gradient-overlay {
+        background: linear-gradient(to right, rgba(14, 46, 153, 0.9), rgba(22, 93, 255, 0.7));
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-gray-50 text-gray-800">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/95 shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <a href="#" class="flex items-center">
+            <i class="fa fa-bolt text-primary text-3xl mr-2"></i>
+            <span class="text-xl font-bold text-primary">汕头电网海外项目管理平台</span>
+          </a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-center space-x-4">
+            <a href="#home" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-custom">首页</a>
+            <a href="#projects" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-custom">项目管理</a>
+            <a href="#policies" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-custom">政策法规</a>
+            <a href="#guidelines" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-custom">注意事项</a>
+            <a href="#contact" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-custom">联系我们</a>
+          </div>
+        </div>
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="text-gray-700 hover:text-primary">
+            <i class="fa fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#home" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">首页</a>
+        <a href="#projects" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">项目管理</a>
+        <a href="#policies" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">政策法规</a>
+        <a href="#guidelines" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">注意事项</a>
+        <a href="#contact" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">联系我们</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 英雄区域 -->
+  <section id="home" class="pt-16 bg-gradient-to-br from-primary to-secondary text-white">
+    <div class="relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <img src="https://picsum.photos/id/1071/1920/1080" alt="电网设施背景" class="w-full h-full object-cover">
+      </div>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6 text-shadow">
+            汕头电网海外新能源建设项目管理平台
+          </h1>
+          <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-10 max-w-2xl mx-auto">
+            整合全球资源，推动绿色能源发展，打造高效、智能、可持续的海外新能源项目管理体系
+          </p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="#projects" class="bg-white text-primary hover:bg-light px-8 py-3 rounded-lg font-medium transition-custom shadow-lg">
+              浏览项目 <i class="fa fa-arrow-right ml-2"></i>
+            </a>
+            <a href="#contact" class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-medium transition-custom">
+              联系我们 <i class="fa fa-envelope ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- 平台简介 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">平台简介</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          汕头电网海外新能源建设项目管理平台是一个综合性的项目管理系统，旨在为海外新能源项目提供全方位的支持和管理
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-line-chart text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">项目全流程管理</h3>
+          <p class="text-gray-600">
+            提供从项目规划、执行到收尾的全生命周期管理，确保项目按时、按质、按量完成。
+          </p>
+        </div>
+
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-globe text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">全球项目监控</h3>
+          <p class="text-gray-600">
+            实时监控全球范围内的新能源项目进展，及时掌握项目动态，做出科学决策。
+          </p>
+        </div>
+
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-book text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">政策法规指南</h3>
+          <p class="text-gray-600">
+            提供各国新能源政策法规解读，帮助项目团队了解当地政策环境，规避风险。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目管理流程 -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">项目管理流程</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          我们采用科学、规范的项目管理流程，确保每个项目都能顺利推进
+        </p>
+      </div>
+
+      <div class="relative">
+        <!-- 连接线 -->
+        <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary/30 transform -translate-x-1/2"></div>
+
+        <div class="space-y-12">
+          <!-- 步骤1 -->
+          <div class="relative flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                <h3 class="text-xl font-bold text-primary mb-2">项目规划</h3>
+                <p class="text-gray-600">
+                  进行项目可行性研究、制定项目计划、明确项目目标和关键绩效指标，为项目成功奠定基础。
+                </p>
+              </div>
+            </div>
+            <div class="absolute left-1/2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transform -translate-x-1/2 z-10 shadow-lg">
+              <span class="font-bold">1</span>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left"></div>
+          </div>
+
+          <!-- 步骤2 -->
+          <div class="relative flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right order-1 md:order-2"></div>
+            <div class="absolute left-1/2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transform -translate-x-1/2 z-10 shadow-lg">
+              <span class="font-bold">2</span>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left order-2 md:order-1 mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                <h3 class="text-xl font-bold text-primary mb-2">资源分配</h3>
+                <p class="text-gray-600">
+                  根据项目需求，分配人力、物力和财力资源，组建项目团队，明确各成员职责。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 步骤3 -->
+          <div class="relative flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                <h3 class="text-xl font-bold text-primary mb-2">项目执行</h3>
+                <p class="text-gray-600">
+                  按照项目计划执行各项任务，监控项目进展，及时解决项目中出现的问题。
+                </p>
+              </div>
+            </div>
+            <div class="absolute left-1/2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transform -translate-x-1/2 z-10 shadow-lg">
+              <span class="font-bold">3</span>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left"></div>
+          </div>
+
+          <!-- 步骤4 -->
+          <div class="relative flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right order-1 md:order-2"></div>
+            <div class="absolute left-1/2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transform -translate-x-1/2 z-10 shadow-lg">
+              <span class="font-bold">4</span>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left order-2 md:order-1 mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                <h3 class="text-xl font-bold text-primary mb-2">质量控制</h3>
+                <p class="text-gray-600">
+                  建立质量控制体系，对项目各个阶段进行质量检查，确保项目质量符合标准。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 步骤5 -->
+          <div class="relative flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                <h3 class="text-xl font-bold text-primary mb-2">项目收尾</h3>
+                <p class="text-gray-600">
+                  项目完成后，进行项目验收、经验总结和归档，为后续项目提供参考。
+                </p>
+              </div>
+            </div>
+            <div class="absolute left-1/2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transform -translate-x-1/2 z-10 shadow-lg">
+              <span class="font-bold">5</span>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目信息展示 -->
+  <section id="projects" class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">海外新能源项目</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          探索我们在全球范围内的新能源建设项目，了解项目进展和成果
+        </p>
+      </div>
+
+      <!-- 项目筛选 -->
+      <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <button class="px-6 py-2 rounded-full bg-primary text-white font-medium">全部项目</button>
+        <button class="px-6 py-2 rounded-full bg-gray-200 hover:bg-gray-300 font-medium transition-custom">太阳能</button>
+        <button class="px-6 py-2 rounded-full bg-gray-200 hover:bg-gray-300 font-medium transition-custom">风能</button>
+        <button class="px-6 py-2 rounded-full bg-gray-200 hover:bg-gray-300 font-medium transition-custom">水能</button>
+        <button class="px-6 py-2 rounded-full bg-gray-200 hover:bg-gray-300 font-medium transition-custom">其他</button>
+      </div>
+
+      <!-- 项目卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 项目1 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1071/800/600" alt="肯尼亚太阳能发电站项目" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">进行中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">肯尼亚太阳能发电站项目</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>肯尼亚，内罗毕</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该项目是肯尼亚最大的太阳能发电站之一，装机容量50MW，将为当地提供清洁电力，促进经济发展。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>75%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目2 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1036/800/600" alt="越南风电场项目" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full">规划中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">越南风电场项目</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>越南，平顺省</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该风电场规划装机容量100MW，将采用先进的风力发电技术，预计年发电量可达300GWh。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>30%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目3 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1025/800/600" alt="南非水电站项目" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">进行中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">南非水电站项目</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>南非，开普敦</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该水电站项目将利用当地水资源，装机容量80MW，预计每年可减少碳排放约50万吨。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>60%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目4 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1060/800/600" alt="马来西亚生物质能项目" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-yellow-500 text-white text-sm font-medium px-3 py-1 rounded-full">调试中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">马来西亚生物质能项目</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>马来西亚，吉隆坡</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该项目利用当地丰富的生物质资源发电，装机容量15MW，可满足周边地区约5万户家庭的用电需求。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>90%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目5 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1018/800/600" alt="泰国太阳能屋顶计划" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">进行中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">泰国太阳能屋顶计划</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>泰国，曼谷</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该项目旨在推广太阳能光伏发电，计划在5年内为10万户家庭安装太阳能屋顶，总装机容量50MW。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>45%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目6 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+          <div class="relative h-60">
+            <img src="https://picsum.photos/id/1029/800/600" alt="阿联酋太阳能公园项目" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">进行中</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">阿联酋太阳能公园项目</h3>
+            <div class="flex items-center text-gray-500 mb-4">
+              <i class="fa fa-map-marker mr-2"></i>
+              <span>阿联酋，阿布扎比</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+              该太阳能公园是世界上最大的太阳能项目之一，一期工程装机容量1GW，采用最先进的太阳能技术。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <span class="font-medium">进度：</span>80%
+              </div>
+              <a href="#" class="text-primary hover:text-secondary font-medium flex items-center">
+                查看详情 <i class="fa fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 查看更多按钮 -->
+      <div class="text-center mt-12">
+        <a href="#" class="inline-flex items-center justify-center px-8 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium rounded-lg transition-custom">
+          查看更多项目 <i class="fa fa-angle-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 政策法规 -->
+  <section id="policies" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">新能源政策法规</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          了解各国新能源政策法规，助力项目合规开展
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 左侧政策列表 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-bold text-gray-900">最新政策</h3>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <a href="#" class="block p-6 hover:bg-gray-50 transition-custom">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-gray-900">肯尼亚新能源发展规划(2025-2030)</h4>
+                <span class="text-sm text-gray-500">2025-03-15</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                该规划提出到2030年将可再生能源占比提高到70%，为海外投资提供了广阔机遇...
+              </p>
+            </a>
+            <a href="#" class="block p-6 hover:bg-gray-50 transition-custom">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-gray-900">越南风电项目优惠政策解读</h4>
+                <span class="text-sm text-gray-500">2025-02-28</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                越南政府推出新的风电项目补贴政策，对符合条件的项目提供税收减免和电价补贴...
+              </p>
+            </a>
+            <a href="#" class="block p-6 hover:bg-gray-50 transition-custom">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-gray-900">南非可再生能源法案修订案</h4>
+                <span class="text-sm text-gray-500">2025-01-10</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                新修订的法案简化了可再生能源项目审批流程，提高了外资准入门槛...
+              </p>
+            </a>
+            <a href="#" class="block p-6 hover:bg-gray-50 transition-custom">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-gray-900">马来西亚太阳能投资指南</h4>
+                <span class="text-sm text-gray-500">2024-12-05</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                本指南详细介绍了马来西亚太阳能市场现状、政策环境和投资机会...
+              </p>
+            </a>
+            <a href="#" class="block p-6 hover:bg-gray-50 transition-custom">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-gray-900">泰国新能源项目环境评估要求</h4>
+                <span class="text-sm text-gray-500">2024-11-20</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                泰国政府对新能源项目环境评估提出了更高要求，新增多项环保指标...
+              </p>
+            </a>
+          </div>
+          <div class="p-6 text-center border-t border-gray-200">
+            <a href="#" class="text-primary hover:text-secondary font-medium">查看全部政策法规</a>
+          </div>
+        </div>
+
+        <!-- 右侧政策地图 -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">全球新能源政策热点地区</h3>
+          <div class="bg-light rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-medium text-gray-900">政策友好度指数</h4>
+              <span class="text-primary font-bold">85/100</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+              <div class="bg-primary h-2.5 rounded-full" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-light rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-medium text-gray-900">非洲地区</h4>
+                <span class="text-green-500 font-bold">↑12%</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                政策支持力度加大，多个国家推出新能源发展计划
+              </p>
+            </div>
+            <div class="bg-light rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-medium text-gray-900">东南亚</h4>
+                <span class="text-green-500 font-bold">↑8%</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                投资环境改善，电价补贴政策吸引更多企业进入
+              </p>
+            </div>
+            <div class="bg-light rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-medium text-gray-900">中东地区</h4>
+                <span class="text-green-500 font-bold">↑15%</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                石油国家加速能源转型，大规模太阳能项目启动
+              </p>
+            </div>
+            <div class="bg-light rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-medium text-gray-900">欧洲地区</h4>
+                <span class="text-yellow-500 font-bold">→持平</span>
+              </div>
+              <p class="text-gray-600 text-sm">
+                政策稳定但竞争激烈，技术门槛持续提高
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 注意事项 -->
+  <section id="guidelines" class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">海外项目注意事项</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          了解海外新能源项目实施过程中的关键注意事项，规避风险
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 注意事项1 -->
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-globe text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">文化差异</h3>
+          <p class="text-gray-600 mb-4">
+            不同国家和地区有不同的文化习俗和商业习惯，应充分了解并尊重当地文化，建立良好的合作关系。
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>了解当地商务礼仪和沟通方式</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>尊重当地宗教信仰和风俗习惯</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>建立本地化团队，提高文化适应性</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 注意事项2 -->
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-gavel text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">法律合规</h3>
+          <p class="text-gray-600 mb-4">
+            遵守当地法律法规是项目成功的基础，应充分了解当地法律环境，确保项目合规运营。
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>聘请当地法律顾问，提供法律咨询</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>了解环保、劳工、税收等方面的法律要求</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>建立合规管理体系，确保项目合法运营</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 注意事项3 -->
+        <div class="bg-light rounded-xl p-8 shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-cogs text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">技术适配</h3>
+          <p class="text-gray-600 mb-4">
+            应根据当地自然条件和电网特点，选择合适的技术方案，确保项目高效运行。
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>考虑当地气候条件对设备的影响</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>适应当地电网标准和接入要求</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+              <span>选择易于维护和操作的技术方案</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 风险评估工具 -->
+      <div class="mt-16 bg-gradient-to-r from-primary to-secondary text-white rounded-xl shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-8 md:p-12">
+            <h3 class="text-2xl font-bold mb-4">海外项目风险评估工具</h3>
+            <p class="mb-6">
+              使用我们的风险评估工具，了解目标国家的政治、经济、法律、环境等方面的风险状况，为项目决策提供参考。
+            </p>
+            <form class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-2">选择国家</label>
+                <select class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50">
+                  <option>肯尼亚</option>
+                  <option>越南</option>
+                  <option>南非</option>
+                  <option>马来西亚</option>
+                  <option>泰国</option>
+                  <option>阿联酋</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">项目类型</label>
+                <select class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50">
+                  <option>太阳能</option>
+                  <option>风能</option>
+                  <option>水能</option>
+                  <option>生物质能</option>
+                  <option>其他</option>
+                </select>
+              </div>
+              <button type="submit" class="w-full bg-white text-primary hover:bg-white/90 px-6 py-3 rounded-lg font-medium transition-custom shadow-lg">
+                获取风险评估报告
+              </button>
+            </form>
+          </div>
+          <div class="hidden md:block relative">
+            <img src="https://picsum.photos/id/1071/800/600" alt="全球能源地图" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 p-12 flex flex-col justify-center">
+              <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <h4 class="text-xl font-bold mb-4">风险评估报告样本</h4>
+                <ul class="space-y-3">
+                  <li class="flex justify-between">
+                    <span>政治稳定性</span>
+                    <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">低风险</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>法律合规性</span>
+                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">中等风险</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>经济环境</span>
+                    <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">低风险</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>基础设施</span>
+                    <span class="bg-orange-500 text-white px-2 py-1 rounded-full text-xs">高风险</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>文化差异</span>
+                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">中等风险</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section id="contact" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900 mb-4">联系我们</h2>
+        <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        <p class="text-gray-600 text-lg">
+          如有任何问题或建议，请随时与我们联系，我们将竭诚为您服务
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- 左侧联系方式 -->
+        <div class="bg-white rounded-xl shadow-md p-8">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">联系方式</h3>
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-map-marker text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 mb-1">地址</h4>
+                <p class="text-gray-600">中国广东省汕头市龙湖区珠池路23号</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-phone text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 mb-1">电话</h4>
+                <p class="text-gray-600">+86 754-88888888</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-envelope text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 mb-1">邮箱</h4>
+                <p class="text-gray-600">overseas@stpower.com</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-clock-o text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900 mb-1">工作时间</h4>
+                <p class="text-gray-600">周一至周五: 9:00 - 18:00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <h4 class="font-medium text-gray-900 mb-4">关注我们</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                <i class="fa fa-weixin"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                <i class="fa fa-weibo"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                <i class="fa fa-linkedin"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧联系表单 -->
+        <div class="bg-white rounded-xl shadow-md p-8">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">发送消息</h3>
+          <form class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+              <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的姓名">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+              <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的邮箱">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
+              <input type="tel" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的电话">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">主题</label>
+              <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                <option>项目咨询</option>
+                <option>政策咨询</option>
+                <option>合作洽谈</option>
+                <option>技术支持</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">消息内容</label>
+              <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的消息内容"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-medium py-3 px-4 rounded-lg transition-custom">
+              发送消息
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-6">
+            <i class="fa fa-bolt text-primary text-3xl mr-2"></i>
+            <span class="text-xl font-bold">汕头电网海外项目管理平台</span>
+          </div>
+          <p class="text-gray-400 mb-6">
+            整合全球资源，推动绿色能源发展，打造高效、智能、可持续的海外新能源项目管理体系
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+              <i class="fa fa-weixin text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+              <i class="fa fa-weibo text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+              <i class="fa fa-linkedin text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+              <i class="fa fa-twitter text-xl"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-6">快速链接</h4>
+          <ul class="space-y-3">
+            <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">首页</a></li>
+            <li><a href="#projects" class="text-gray-400 hover:text-white transition-custom">项目管理</a></li>
+            <li><a href="#policies" class="text-gray-400 hover:text-white transition-custom">政策法规</a></li>
+            <li><a href="#guidelines" class="text-gray-400 hover:text-white transition-custom">注意事项</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-white transition-custom">联系我们</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-6">项目类型</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">太阳能项目</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">风能项目</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">水能项目</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">生物质能项目</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">混合能源项目</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-6">联系信息</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">中国广东省汕头市龙湖区珠池路23号</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-phone text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">+86 754-88888888</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-envelope text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">overseas@stpower.com</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-clock-o text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">周一至周五: 9:00 - 18:00</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm">© 2025 汕头电网海外新能源建设项目管理平台. 保留所有权利.</p>
+        <div class="mt-4 md:mt-0">
+          <ul class="flex space-x-6">
+            <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">隐私政策</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">使用条款</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">网站地图</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 回到顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-secondary">
+    <i class="fa fa-chevron-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-md');
+        navbar.classList.remove('bg-white/95');
+        navbar.classList.add('bg-white');
+      } else {
+        navbar.classList.remove('shadow-md');
+        navbar.classList.add('bg-white/95');
+        navbar.classList.remove('bg-white');
+      }
+    });
+
+    // 移动端菜单切换
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // 关闭移动端菜单
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+          }
+        }
+      });
+    });
+
+    // 回到顶部按钮
+    const backToTopButton = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.add('opacity-0', 'invisible');
+        backToTopButton.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // 初始化动画
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.card-hover');
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (elementPosition < windowHeight - 100) {
+          element.classList.add('animate-fadeIn');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+  </script>
+</body>
+</html>
+    
